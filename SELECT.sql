@@ -162,17 +162,25 @@ SELECT customer_id, count(rental_id) FROM rental group by customer_id ORDER BY c
 SELECT customer_id, sum(amount) FROM payment GROUP BY customer_id HAVING sum(amount) > 150 ORDER BY sum(amount) DESC; 
 
 -- joins
+# INNER JOIN: Returns only rows where there's a match in both tables.
+# LEFT JOIN: Returns all rows from the left table, with matching rows from the right.  Non-matching right side → NULL.
+# RIGHT JOIN: Returns all rows from the right table, with matching rows from the left. Non-matching left side → NULL.
+# FULL OUTER JOIN: Returns all rows from both tables. Where there's no match on either side → NULL.
 
 SELECT category_id, name FROM category;
 SELECT film_id, category_id  FROM film_category;
 
 SELECT film_category.film_id, category.category_id, category.name FROM category
 INNER JOIN film_category
-ON film_category.category_id  = category.category_id;
+ON film_category.category_id = category.category_id;
 
 SELECT fc.film_id, c.category_id, c.name FROM category AS c
 INNER JOIN film_category AS fc
 ON fc.category_id  = c.category_id;
+
+SELECT fc.film_id, c.category_id, c.name FROM category AS c
+INNER JOIN film_category AS fc
+USING (category_id);
 
 SELECT fc.film_id, c.category_id, c.name FROM category AS c
 LEFT JOIN film_category AS fc
@@ -182,3 +190,22 @@ SELECT fc.film_id, c.category_id, c.name FROM category AS c
 RIGHT JOIN film_category AS fc
 USING (category_id);
 
+-- join 3 tables
+
+SELECT fc.film_id, f.title, c.category_id, c.name FROM category AS c
+INNER JOIN film_category AS fc
+ON fc.category_id  = c.category_id
+INNER JOIN film AS f
+ON f.film_id = fc.film_id;
+
+-- VIEW: A virtual table based on a SELECT query. Doesn't store data itself, just stores the query definition.
+
+CREATE VIEW vw_file_genre
+AS
+SELECT fc.film_id, f.title AS "Film Name", c.name AS "Genre" FROM category AS c
+INNER JOIN film_category AS fc
+ON fc.category_id  = c.category_id
+INNER JOIN film AS f
+ON f.film_id = fc.film_id;
+
+SELECT * FROM sakila.vw_file_genre
