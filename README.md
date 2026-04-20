@@ -126,6 +126,6 @@ Or open any `.sql` file directly in MySQL Workbench and execute it.
 
 ## Notes
 
-- All scripts are written for **MySQL 8.x**. Some syntax (e.g. `TABLE t1`, `VALUES ROW()`) is not compatible with older versions.
+- All scripts are written for **MySQL 8.0**. Some syntax (e.g. `TABLE t1`, `VALUES ROW()`) is not compatible with older versions.
 - The `testdb` database is created and dropped within scripts that need it — safe to run repeatedly.
 - Inline comments (`--` and `#`) explain non-obvious behavior throughout each file.
